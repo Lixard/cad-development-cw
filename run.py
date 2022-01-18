@@ -1,13 +1,14 @@
 import tkinter as tk
+from tkinter import ttk
 
-# initializing
-root = tk.Tk()
 
-# setup theme
-root.tk.call("source", "theme.tcl")
+class UI:
+    def __init__(self) -> None:
+        self._root = tk.TK()
+        self._root.title("Курсовая по разработке САПР бАП-181 Борисов Максим")
+        self._root.resizable(False, False)
+        self._main_window()
+        self._root.mainloop()
 
-# resize window to the half of screen resolution
-root.geometry(f"{root.winfo_screenwidth()//2}x{root.winfo_screenheight()//2}")
-
-# infinite loop
-root.mainloop()
+    def _main_window(self) -> None:
+        pass
