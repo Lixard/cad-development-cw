@@ -14,6 +14,9 @@ from win32gui import *
 from win32print import *
 from pywintypes import DEVMODEType
 
+global_color = True
+
+
 class UI:
     def __init__(self) -> None:
         self._root = tk.Tk()
@@ -347,7 +350,12 @@ class UI:
         mb.showinfo("EnumDisplaySetting", enum_display_setting())
 
     def _set_sys_colors_btn_clicked(self):
-        set_sys_colors()
+        result = set_sys_colors()
+        if result:
+            msg = "Надписи на кнопках убраны"
+        else:
+            msg = "Надписи на кнопках возвращены"
+        mb.showinfo("SetSysColors", msg)
 
     def _change_display_setting_btn_clicked(self):
         x = sd.askinteger("ChangeDisplaySetting", "Укажите x")
@@ -472,12 +480,17 @@ def enum_display_setting():
 
 
 def set_sys_colors():
-    pass
-    #color = ctypes.wintypes.RGB(225, 255, 255)
-    #ctypes.windll.user32.SetSysColors(1, ctypes.byref(ctypes.c_int(COLOR_BTNTEXT)), ctypes.byref(ctypes.c_int(color)))
-    #sleep(10)
-    #color2 = ctypes.wintypes.RGB(255, 255, 255)
-    #ctypes.windll.user32.SetSysColors(1, ctypes.byref(ctypes.c_int(COLOR_BTNTEXT)), ctypes.byref(ctypes.c_int(color)))
+    global global_color
+    if global_color:
+        color = ctypes.wintypes.RGB(225, 255, 255)
+        ctypes.windll.user32.SetSysColors(1, ctypes.byref(ctypes.c_int(COLOR_BTNTEXT)), ctypes.byref(ctypes.c_int(color)))
+        global_color = False
+        return True
+    else:
+        color = ctypes.wintypes.RGB(0, 0, 0)
+        ctypes.windll.user32.SetSysColors(1, ctypes.byref(ctypes.c_int(COLOR_BTNTEXT)), ctypes.byref(ctypes.c_int(color)))
+        global_color = True
+        return False
 
 
 def change_display_setting(x, y):
